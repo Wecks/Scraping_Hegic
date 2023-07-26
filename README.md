@@ -7,7 +7,7 @@ Here's what the code does:
 - Stores the data in an Excel file that I have created
 - Repeats this process every 8 hours
 
-# Why doing that ?
+# Why am I doing this ?
 I am experimenting with a trading strategy that revolves around options and is based on the volatility of the BTC and ETH market. 
 
 Specifically, I am using a strategy called "Straddle". 
