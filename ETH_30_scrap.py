@@ -63,29 +63,19 @@ driver.close()
 wb = xw.Book('Premium.xlsx')
 print("in excel")
 sheet = wb.sheets['Feuil1']
-if not sheet["A1"].value:
-   sheet["A1"].value = "Date UTC"
-if not sheet["B1"].value:
-   sheet["B1"].value = "Pair"
-if not sheet["C1"].value:
-   sheet["C1"].value = "Durée"
-if not sheet["D1"].value:
-   sheet["D1"].value = "Prix"
-if not sheet["E1"].value:
-   sheet["E1"].value = "Premium"
 
 def table_index(colum):
    for i in range(1,1000):
       if not sheet[colum+str(i)].value:
          return str(i)
 
-index = table_index("A")
+index = table_index("I")
 print("After index :"+index)
 
-sheet["A"+index].value = datetime.datetime.today()
-sheet["B"+index].value = "ETH/USD"
-sheet["C"+index].value = 30
-sheet["D"+index].value = data['price']
-sheet["E"+index].value = premium
+sheet["I"+index].value = datetime.datetime.today()
+sheet["J"+index].value = "ETH/USD"
+sheet["K"+index].value = 30
+sheet["L"+index].value = data['price']
+sheet["M"+index].value = premium
 wb.save()
 wb.close()
