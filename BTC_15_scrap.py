@@ -1,7 +1,7 @@
 import json
 import datetime
 import requests
-import xlwings as xw
+import openpyxl as xl
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -55,14 +55,16 @@ premium_btc = wait.until(element_doesnt_have_text((By.TAG_NAME, "span"), "..."))
 data = requests.get(key)  
 data = data.json()
 premium = premium_btc.text
+data['price'] = data['price'].split('.')[0]
 
 print(premium + " " + data['price'])
 
 driver.close()
 # Putting everything in an excel
-wb = xw.Book('Premium.xlsx')
+wb = xl.load_workbook(filename='Premium.xlsx')
 print("in excel")
-sheet = wb.sheets['Feuil1']
+sheet = wb.active
+
 if not sheet["A1"].value:
    sheet["A1"].value = "Date UTC"
 if not sheet["B1"].value:
@@ -75,7 +77,7 @@ if not sheet["E1"].value:
    sheet["E1"].value = "Premium"
 
 def table_index(colum):
-   for i in range(1,1000):
+   for i in range(200,1000):
       if not sheet[colum+str(i)].value:
          return str(i)
 
@@ -88,5 +90,5 @@ sheet["C"+index].value = 15
 sheet["D"+index].value = data['price']
 sheet["E"+index].value = premium.replace(" ","")
 print(premium.replace(" ",""))
-wb.save()
+wb.save('Premium.xlsx')
 wb.close()

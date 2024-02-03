@@ -1,7 +1,7 @@
 import json
 import datetime
 import requests
-import xlwings as xw
+import openpyxl as xl
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -52,20 +52,21 @@ wait = WebDriverWait(elem_premium_btc, 10)
 premium_btc = wait.until(element_doesnt_have_text((By.TAG_NAME, "span"), "..."))
 
 # requesting data from url : Binance API
-data = requests.get(key)  
+data = requests.get(key)
 data = data.json()
 premium = premium_btc.text
+data['price'] = data['price'].split('.')[0]
 
 print(premium + " " + data['price'])
 
 driver.close()
 # Putting everything in an excel
-wb = xw.Book('Premium.xlsx')
+wb = xl.load_workbook(filename='Premium.xlsx')
 print("in excel")
-sheet = wb.sheets['Feuil1']
+sheet = wb.active
 
 def table_index(colum):
-   for i in range(1,1000):
+   for i in range(200,1000):
       if not sheet[colum+str(i)].value:
          return str(i)
 
@@ -77,5 +78,5 @@ sheet["J"+index].value = "ETH/USD"
 sheet["K"+index].value = 30
 sheet["L"+index].value = data['price']
 sheet["M"+index].value = premium
-wb.save()
+wb.save('Premium.xlsx')
 wb.close()
